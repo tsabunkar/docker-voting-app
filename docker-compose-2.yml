@@ -1,0 +1,25 @@
+redis:
+  image: redis:6
+
+db:
+  image: postgres:9.4
+
+vote:
+  image: tsabunkar/voting-app
+  ports:
+    - 5000:80 # list defined with - (dash)
+  links:
+    - redis
+
+worker:
+  image: tsabunkar/worker-app
+  links:
+    - db
+    - redis
+
+result:
+  image: tsabunkar/result-app
+  ports:
+    - 5001:80
+  links:
+    - db
